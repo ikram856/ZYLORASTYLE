@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 
 export default function BoutiquePage({ products, wishlist, filter, onFilter, onAddToCart, onOpenProduct, onToggleWish }) {
-  const filtered = filter === "all" ? products : products.filter((p) => p.cat === filter);
+  const filtered = filter === "all" ? products : products.filter((p) => p.vol === filter);
 
   useEffect(() => {
     const obs = new IntersectionObserver((entries) => {
@@ -14,14 +14,16 @@ export default function BoutiquePage({ products, wishlist, filter, onFilter, onA
 
   const filters = [
     { id: "all", label: "Tous" },
-    { id: "Eau de Parfum", label: "Eaux de Parfum" },
-    { id: "Extrait de Parfum", label: "Extraits" },
+    { id: "30ml", label: "30 ml" },
+    { id: "35ml", label: "35 ml" },
+    { id: "70ml", label: "70 ml" },
+    { id: "100ml", label: "100 ml" },
   ];
 
   return (
     <div style={{ paddingTop: 78 }}>
       <div className="phero">
-        <div className="phbg"><img src="https://images.unsplash.com/photo-1596091213011-8b62e2a0b5f7?w=1400&q=80" alt="" /></div>
+        <div className="phbg"><img src="/banner2.png" alt="" /></div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom,rgba(6,21,16,.5),rgba(27,94,56,.05),rgba(6,21,16,.65))" }}></div>
         <div className="phcont">
           <div className="slabel">Notre Sélection</div>

@@ -1,25 +1,52 @@
 import { useState, useEffect, useRef } from "react";
 import "./index.css";
 import { products as initialProducts } from "./data/products";
+import { db } from "./firebase";
+import { collection, getDocs, setDoc, deleteDoc, doc } from "firebase/firestore";
 import Navbar from "./components/Navbar";
 import Cart from "./components/Cart";
 import ProductModal from "./components/ProductModal";
 import AdminPage from "./components/AdminPage";
-import HomePage from "./components/HomePage";        // ← manquait
+import HomePage from "./components/HomePage";
 import BoutiquePage from "./components/BoutiquePage";
-import { CollectionsPage, AboutPage } from "./components/OtherPages";
+import { AboutPage } from "./components/OtherPages";
 import Footer from "./components/Footer";
 
 export default function App() {
   const [page, setPage] = useState("home");
-  const [products, setProducts] = useState(initialProducts);
-  const [cart, setCart] = useState([]);              // ← manquait
+  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [modalProduct, setModalProduct] = useState(null);
   const [filter, setFilter] = useState("all");
   const [notif, setNotif] = useState({ msg: "", show: false });
+  const [loading, setLoading] = useState(true);
   const notifTimer = useRef(null);
+
+  // Charger les produits depuis Firestore au démarrage
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const snap = await getDocs(collection(db, "products"));
+        if (snap.empty) {
+          // Première fois : charger les produits initiaux dans Firestore
+          for (const p of initialProducts) {
+            await setDoc(doc(db, "products", String(p.id)), p);
+          }
+          setProducts(initialProducts);
+        } else {
+          const prods = snap.docs.map(d => d.data());
+          setProducts(prods);
+        }
+      } catch (e) {
+        console.error(e);
+        setProducts(initialProducts);
+      }
+      setLoading(false);
+    };
+    loadProducts();
+  }, []);
 
   useEffect(() => {
     const cur = document.getElementById("cursor");
@@ -65,24 +92,43 @@ export default function App() {
     showNotif(wishlist.includes(id) ? "✦ Retiré des favoris" : "✦ Ajouté aux favoris");
   };
 
-  // ← complétées
-  const handleAdminSave = (product) => {
-    setProducts((prev) => {
-      const exists = prev.find((x) => x.id === product.id);
-      if (exists) return prev.map((x) => x.id === product.id ? product : x);
-      return [...prev, product];
-    });
-    showNotif("✦ Produit enregistré avec succès");
+  const handleAdminSave = async (product) => {
+    try {
+      await setDoc(doc(db, "products", String(product.id)), product);
+      setProducts((prev) => {
+        const exists = prev.find((x) => x.id === product.id);
+        if (exists) return prev.map((x) => x.id === product.id ? product : x);
+        return [...prev, product];
+      });
+      showNotif("✦ Produit enregistré avec succès");
+    } catch (e) {
+      showNotif("✦ Erreur lors de l'enregistrement");
+    }
   };
 
-  const handleAdminDelete = (id) => {
-    setProducts((prev) => prev.filter((x) => x.id !== id));
-    showNotif("✦ Produit supprimé");
+  const handleAdminDelete = async (id) => {
+    try {
+      await deleteDoc(doc(db, "products", String(id)));
+      setProducts((prev) => prev.filter((x) => x.id !== id));
+      showNotif("✦ Produit supprimé");
+    } catch (e) {
+      showNotif("✦ Erreur lors de la suppression");
+    }
   };
 
   const cartCount = cart.reduce((s, i) => s + i.qty, 0);
   const modalProd = products.find((p) => p.id === modalProduct);
   const pageProps = { products, wishlist, onAddToCart: addToCart, onOpenProduct: setModalProduct, onToggleWish: toggleWish };
+
+  if (loading) return (
+    <>
+      <div id="cursor"></div>
+      <div id="cring"></div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: "#060f0a", color: "#c9b97a", fontFamily: "Playfair Display, serif", fontSize: 22 }}>
+        Chargement...
+      </div>
+    </>
+  );
 
   return (
     <>
@@ -93,18 +139,16 @@ export default function App() {
 
       <Navbar currentPage={page} onNavigate={navigate} cartCount={cartCount} onCartToggle={() => setCartOpen((o) => !o)} />
 
-      {page === "home"        && <HomePage {...pageProps} onNavigate={navigate} />}
-      {page === "boutique"    && <BoutiquePage {...pageProps} filter={filter} onFilter={setFilter} />}
-      {page === "collections" && <CollectionsPage {...pageProps} />}
-      {page === "about"       && <AboutPage onNavigate={navigate} />}
-      {page === "admin"       && <AdminPage products={products} onSave={handleAdminSave} onDelete={handleAdminDelete} />}
+      {page === "home"     && <HomePage {...pageProps} onNavigate={navigate} />}
+      {page === "boutique" && <BoutiquePage {...pageProps} filter={filter} onFilter={setFilter} />}
+      {page === "about"    && <AboutPage onNavigate={navigate} />}
+      {page === "admin"    && <AdminPage products={products} onSave={handleAdminSave} onDelete={handleAdminDelete} />}
 
       {page !== "admin" && <Footer onNavigate={navigate} />}
 
       <Cart cart={cart} isOpen={cartOpen} onClose={() => setCartOpen(false)} onRemove={removeFromCart}
         onCheckout={() => showNotif("✦ Redirection vers le paiement sécurisé...")} />
 
-      {/* ← sorti du bloc modalProd */}
       {modalProd && (
         <ProductModal
           product={modalProd}

@@ -22,7 +22,6 @@ export default function Navbar({ currentPage, onNavigate, cartCount, onCartToggl
   const links = [
     { id: "home", label: "Accueil" },
     { id: "boutique", label: "Boutique" },
-    { id: "collections", label: "Collections" },
     { id: "about", label: "Maison" },
   ];
 
@@ -30,8 +29,7 @@ export default function Navbar({ currentPage, onNavigate, cartCount, onCartToggl
     <nav className={scrolled ? "scrolled" : ""}>
       <div className="nav-inner">
         <div className="logo" onClick={handleLogoClick}>
-          <div className="logo-main">ZYLORA<span>STYLE</span></div>
-          <div className="logo-sub">HAUTE PARFUMERIE</div>
+          <img src="/logo.png" alt="Zylorastyle" style={{ height: 48, width: "auto", display: "block" }} />
         </div>
         <div className="nav-links">
           {links.map((l) => (

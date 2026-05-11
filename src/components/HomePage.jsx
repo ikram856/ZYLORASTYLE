@@ -1,22 +1,10 @@
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 
-const slides = [
-  "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=1600&q=80",
-  "https://images.unsplash.com/photo-1541643600914-78b084683702?w=1600&q=80",
-  "https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=1600&q=80",
-];
-
 const tickerItems = ["100% Original","Extrait Concentré","Tenue 24h","Fabrication Artisanale","Livraison Rapide","Oud d'Oman","Jasmin de Grasse","Santal de Mysore"];
 
 export default function HomePage({ products, wishlist, onAddToCart, onOpenProduct, onToggleWish, onNavigate }) {
-  const [hi, setHi] = useState(0);
   const [email, setEmail] = useState("");
-
-  useEffect(() => {
-    const t = setInterval(() => setHi((p) => (p + 1) % 3), 6000);
-    return () => clearInterval(t);
-  }, []);
 
   // Reveal observer
   useEffect(() => {
@@ -40,11 +28,9 @@ export default function HomePage({ products, wishlist, onAddToCart, onOpenProduc
     <div>
       {/* HERO */}
       <section id="hero" style={{ padding: 0 }}>
-        {slides.map((src, i) => (
-          <div key={i} className={`hslide${hi === i ? " active" : ""}`}>
-            <img src={src} alt="" />
-          </div>
-        ))}
+        <div className="hslide active">
+          <img src="/banner1.png" alt="Zylorastyle" style={{ objectPosition: "center" }} />
+        </div>
         <div className="hover-overlay"></div>
         <div style={{ position: "absolute", top: 0, right: 0, width: 2, height: "100%", background: "linear-gradient(to bottom,transparent,var(--em2),transparent)", opacity: .4, zIndex: 1 }}></div>
         <div className="hcontent">
@@ -52,14 +38,8 @@ export default function HomePage({ products, wishlist, onAddToCart, onOpenProduc
           <h1 className="htitle">L'art de<br /><em>sentir</em><br />le monde</h1>
           <p className="hsub">100% original · extrait concentré · tenue longue durée 24h</p>
           <div className="hctas">
-            <button className="btn-em" onClick={() => onNavigate("boutique")}><span>Explorer la Boutique</span></button>
-            <button className="btn-ghost" onClick={() => onNavigate("collections")}>Nos Collections</button>
-          </div>
         </div>
-        <div className="hdots">
-          {[0,1,2].map((i) => <button key={i} className={`dot${hi === i ? " active" : ""}`} onClick={() => setHi(i)} />)}
         </div>
-        <div className="hscroll"><div className="sline"></div><span>Défiler</span></div>
       </section>
 
       {/* TICKER */}
@@ -78,10 +58,13 @@ export default function HomePage({ products, wishlist, onAddToCart, onOpenProduc
             <div className="divider"><span style={{ color: "var(--silk)", fontSize: 11 }}>✦</span></div>
           </div>
           <div className="pgrid">
-            {products.slice(0, 4).map((p) => (
-              <ProductCard key={p.id} product={p} isWished={wishlist.includes(p.id)}
-                onAddToCart={onAddToCart} onOpenProduct={onOpenProduct} onToggleWish={onToggleWish} />
-            ))}
+            {["100ml","70ml","35ml","30ml"].map(vol => {
+              const p = products.find(x => x.vol === vol);
+              return p ? (
+                <ProductCard key={p.id} product={p} isWished={wishlist.includes(p.id)}
+                  onAddToCart={onAddToCart} onOpenProduct={onOpenProduct} onToggleWish={onToggleWish} />
+              ) : null;
+            })}
           </div>
           <div style={{ textAlign: "center", marginTop: 50 }} className="reveal">
             <button className="btn-ghost" onClick={() => onNavigate("boutique")}>Voir Toute la Boutique</button>
@@ -92,7 +75,7 @@ export default function HomePage({ products, wishlist, onAddToCart, onOpenProduc
       {/* SPLIT */}
       <div className="split">
         <div className="simg">
-          <img src="https://images.unsplash.com/photo-1590156562745-5462aa38c8d3?w=800&q=80" alt="" />
+          <img src="/Zylora.png" alt="Zylora" />
           <div style={{ position: "absolute", top: 18, left: 18, right: 18, bottom: 18, border: "1px solid rgba(27,94,56,.22)", pointerEvents: "none" }}></div>
         </div>
         <div className="stext reveal">
@@ -112,27 +95,6 @@ export default function HomePage({ products, wishlist, onAddToCart, onOpenProduc
           <button className="btn-ghost" onClick={() => onNavigate("about")}>Notre Maison</button>
         </div>
       </div>
-
-      {/* COLLECTION BANNERS */}
-      <section style={{ background: "var(--deep)", padding: 0 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)" }}>
-          {[
-            { img: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=700&q=80", title: "Nuit\nd'Orient" },
-            { img: "https://images.unsplash.com/photo-1563170351-be82bc888aa4?w=700&q=80", title: "Bois\nSacré" },
-            { img: "https://images.unsplash.com/photo-1547887538-047f814947e5?w=700&q=80", title: "Fleur\nBlanche" },
-          ].map((c) => (
-            <div key={c.title} className="cbann" onClick={() => onNavigate("collections")}>
-              <img src={c.img} alt="" />
-              <div className="bover"></div>
-              <div className="bcont">
-                <div className="btag">Collection</div>
-                <div className="btitle">{c.title.replace("\\n", "\n")}</div>
-                <div className="bline"></div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* FEATURES */}
       <section style={{ padding: "56px 5%", background: "var(--surface)", borderTop: "1px solid var(--border)" }}>
@@ -174,19 +136,7 @@ export default function HomePage({ products, wishlist, onAddToCart, onOpenProduc
         </div>
       </section>
 
-      {/* NEWSLETTER */}
-      <section style={{ background: "linear-gradient(135deg,var(--em3) 0%,var(--ink) 100%)", borderTop: "1px solid var(--gborder)" }}>
-        <div style={{ maxWidth: 550, margin: "0 auto", textAlign: "center" }} className="reveal">
-          <div className="slabel" style={{ textAlign: "center" }}>Club Privé</div>
-          <h2 className="stitle" style={{ textAlign: "center", fontSize: 40 }}>Rejoignez <em>l'Élite</em></h2>
-          <div className="divider"><span style={{ color: "var(--silk)", fontSize: 11 }}>✦</span></div>
-          <p style={{ fontSize: 13, color: "var(--muted)", lineHeight: 1.9 }}>Accès prioritaire aux nouveautés, offres exclusives et invitations VIP réservées aux membres Zylorastyle.</p>
-          <div className="eform">
-            <input className="einput" type="email" placeholder="Votre adresse email..." value={email} onChange={(e) => setEmail(e.target.value)} />
-            <button className="btn-silk" onClick={handleSubscribe}>Rejoindre</button>
-          </div>
-        </div>
-      </section>
+    
     </div>
   );
 }

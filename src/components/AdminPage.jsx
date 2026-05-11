@@ -74,8 +74,9 @@ export default function AdminPage({ products, onSave, onDelete }) {
               <div>
                 <Label>Volume</Label>
                 <select value={form.vol} onChange={(e) => set("vol", e.target.value)} style={selectStyle}>
-                  <option>50ml</option>
-                  <option>75ml</option>
+                  <option>30ml</option>
+                  <option>35ml</option>
+                  <option>70ml</option>
                   <option>100ml</option>
                 </select>
               </div>

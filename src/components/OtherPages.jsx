@@ -81,7 +81,7 @@ export function AboutPage({ onNavigate }) {
   return (
     <div style={{ paddingTop: 78 }}>
       <div className="phero" style={{ height: "60vh" }}>
-        <div className="phbg"><img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=1400&q=80" alt="" /></div>
+        <div className="phbg"><img src="/histoire .jpeg" alt="" /></div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom,rgba(6,21,16,.45),rgba(27,94,56,.05),rgba(6,21,16,.65))" }}></div>
         <div className="phcont">
           <div className="slabel">Notre Histoire</div>
@@ -97,10 +97,12 @@ export function AboutPage({ onNavigate }) {
               <div className="slabel">Fondation</div>
               <h2 className="stitle" style={{ fontSize: "clamp(28px,3.6vw,46px)" }}>Une passion<br /><em>transmise</em></h2>
               <div className="saccent"></div>
-              <p style={{ fontSize: 14, color: "var(--muted)", lineHeight: 2, marginBottom: 16 }}>Fondée en 2019, Zylorastyle est née d'une passion pour les fragrances authentiques. Chaque parfum est 100% original — extrait, concentré — pour une tenue longue durée.</p>
-              <p style={{ fontSize: 14, color: "var(--muted)", lineHeight: 2 }}>Nos formules nourrissent, hydratent et protègent la peau tout en la parfumant. Une expérience olfactive et cosmétique unique.</p>
+              <p style={{ fontSize: 14, color: "var(--muted)", lineHeight: 2, marginBottom: 16 }}>Tout a commencé par un souvenir. Le parfum de notre mère, le matin, avant qu'elle parte travailler. Cette odeur qui disait <strong style={{ color: "var(--silk)", fontWeight: 500 }}>"je suis là"</strong> sans un seul mot.</p>
+              <p style={{ fontSize: 14, color: "var(--muted)", lineHeight: 2, marginBottom: 16 }}>C'est de ce souvenir qu'est née Zylorastyle en 2019. Non pas pour vendre des parfums, mais pour redonner à chacun ce sentiment rare — celui d'être reconnu, d'exister, de laisser une trace.</p>
+              <p style={{ fontSize: 14, color: "var(--muted)", lineHeight: 2, marginBottom: 16 }}>Nous avons parcouru les souks de Marrakech, les champs de jasmin de Grasse, les forêts d'oud d'Oman. Pas pour trouver les meilleures matières premières — mais pour trouver les bonnes émotions.</p>
+              <p style={{ fontSize: 14, color: "var(--silk)", lineHeight: 2, fontStyle: "italic" }}>Chaque flacon Zylorastyle est une promesse : que quelqu'un, quelque part, se retournera sur ton passage.</p>
             </div>
-            <div className="simg"><img src="https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?w=700&q=80" alt="" /></div>
+            <div className="simg"><img src="/chogan maison.jpeg" alt="" /></div>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 2 }}>

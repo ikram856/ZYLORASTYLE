@@ -3,8 +3,7 @@ export default function Footer({ onNavigate }) {
     <footer>
       <div className="fgrid">
         <div>
-          <div className="flogo">ZYLORASTYLE</div>
-          <div className="fsub">HAUTE PARFUMERIE</div>
+          <img src="/logo.png" alt="Zylorastyle" style={{ height: 56, width: "auto", display: "block", marginBottom: 8 }} />
           <p className="fdesc">
             La haute parfumerie accessible. Des fragrances 100% originales, extraits concentrés, tenue 24h. Livrées partout au Maroc.
           </p>
