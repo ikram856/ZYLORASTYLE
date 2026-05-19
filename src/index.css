@@ -75,6 +75,8 @@ nav {
   position: fixed; top: 0; left: 0; right: 0;
   z-index: 1000; padding: 0 5%;
   transition: all .5s;
+  background: rgba(6,21,16,.85);
+  backdrop-filter: blur(20px);
 }
 nav.scrolled {
   background: rgba(6,21,16,.95);
@@ -334,11 +336,11 @@ section { padding: 118px 5%; }
 .phero {
   height: 50vh; display: flex; flex-direction: column;
   align-items: center; justify-content: center; text-align: center;
-  position: relative; overflow: hidden; margin-top: 78px;
+  position: relative; overflow: hidden;
 }
 .phbg { position: absolute; inset: 0; }
 .phbg img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.2); }
-.phcont { position: relative; z-index: 2; }
+.phcont { position: relative; z-index: 2; padding: 0 20px; }
 
 /* FOOTER */
 footer { background: #040e08; border-top: 1px solid var(--border); padding: 74px 5% 36px; }
