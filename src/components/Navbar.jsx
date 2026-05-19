@@ -4,6 +4,7 @@ export default function Navbar({ currentPage, onNavigate, cartCount, onCartToggl
   const [scrolled, setScrolled] = useState(false);
   const [logoClicks, setLogoClicks] = useState(0);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 60);
@@ -11,12 +12,16 @@ export default function Navbar({ currentPage, onNavigate, cartCount, onCartToggl
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  // 5 clics sur le logo = déverrouille le bouton Admin
   const handleLogoClick = () => {
     onNavigate("home");
     const next = logoClicks + 1;
     setLogoClicks(next);
     if (next >= 5) setShowAdmin(true);
+  };
+
+  const handleNav = (id) => {
+    onNavigate(id);
+    setMenuOpen(false);
   };
 
   const links = [
@@ -26,6 +31,7 @@ export default function Navbar({ currentPage, onNavigate, cartCount, onCartToggl
   ];
 
   return (
+    <>
     <nav className={scrolled ? "scrolled" : ""}>
       <div className="nav-inner">
         <div className="logo" onClick={handleLogoClick}>
@@ -33,22 +39,12 @@ export default function Navbar({ currentPage, onNavigate, cartCount, onCartToggl
         </div>
         <div className="nav-links">
           {links.map((l) => (
-            <button
-              key={l.id}
-              className={`nav-link${currentPage === l.id ? " active" : ""}`}
-              onClick={() => onNavigate(l.id)}
-            >
+            <button key={l.id} className={`nav-link${currentPage === l.id ? " active" : ""}`} onClick={() => handleNav(l.id)}>
               {l.label}
             </button>
           ))}
-
-          {/* Visible seulement après 5 clics sur le logo */}
           {showAdmin && (
-            <button
-              className={`nav-link${currentPage === "admin" ? " active" : ""}`}
-              onClick={() => onNavigate("admin")}
-              style={{ color: "var(--silk)", opacity: 0.7 }}
-            >
+            <button className={`nav-link${currentPage === "admin" ? " active" : ""}`} onClick={() => handleNav("admin")} style={{ color: "var(--silk)", opacity: 0.7 }}>
               ⚙ Admin
             </button>
           )}
@@ -62,9 +58,25 @@ export default function Navbar({ currentPage, onNavigate, cartCount, onCartToggl
             </svg>
             {cartCount > 0 && <div className="cbadge">{cartCount}</div>}
           </button>
-          <button className="btn-em" onClick={() => onNavigate("boutique")}><span>Découvrir</span></button>
+          <button className="btn-em" onClick={() => handleNav("boutique")}><span>Découvrir</span></button>
+          <button className="hamburger" onClick={() => setMenuOpen(o => !o)}>
+            <span style={{ transform: menuOpen ? "rotate(45deg) translate(4px, 4px)" : "none" }}></span>
+            <span style={{ opacity: menuOpen ? 0 : 1 }}></span>
+            <span style={{ transform: menuOpen ? "rotate(-45deg) translate(4px, -4px)" : "none" }}></span>
+          </button>
         </div>
       </div>
     </nav>
+    <div className={`mobile-nav${menuOpen ? " open" : ""}`}>
+      {links.map((l) => (
+        <button key={l.id} className={`nav-link${currentPage === l.id ? " active" : ""}`} onClick={() => handleNav(l.id)}>
+          {l.label}
+        </button>
+      ))}
+      {showAdmin && (
+        <button className="nav-link" onClick={() => handleNav("admin")} style={{ color: "var(--silk)" }}>⚙ Admin</button>
+      )}
+    </div>
+    </>
   );
 }
