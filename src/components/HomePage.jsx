@@ -119,9 +119,15 @@ export default function HomePage({ products, wishlist, onAddToCart, onOpenProduc
           </div>
           <div className="tgrid">
             {[
-              { text: '"Zylorastyle m\'a conquise. Le parfum reste toute la journée — 24h comme promis. 100% original, j\'en suis sûre."', name: "Fatima A.", city: "CASABLANCA" },
-              { text: '"Un packaging magnifique, livraison rapide. Le Sauvage pour lui est incomparable. Je commande déjà ma deuxième bouteille !"', name: "Karim B.", city: "MARRAKECH" },
-              { text: '"100% original comme annoncé. Zylorastyle est mon parfumeur de confiance depuis 2 ans. Qualité irréprochable."', name: "Nadia R.", city: "RABAT" },
+              { text: '"Oui wslatni it smells so good ❤️ I love it thank u sm 💗 Inchallah mzl nakhod mn 3ndek mn b3d"', name: "Cliente", city: "MAROC" },
+              { text: '"Heyy! I just received my perfume and I wanted to thank u so much. The scent is amazing, so unique and long-lasting! 😅 The packaging is just stunning and so elegant. This for sure will not be my last order 😀"', name: "Cliente", city: "MAROC" },
+              { text: '"Merci bzfff lik 3la la commande 3ajbatni bzfff ri7thom fanine okib9awe tabtine sara7a fa7wayj 😄"', name: "Cliente", city: "MAROC" },
+              { text: '"La Qualité qui parle ❤️ je suis vraiment satisfaite 😍 @zylorastyle"', name: "luvv_angel.26", city: "INSTAGRAM" },
+              { text: '"Thank u so much 3la la commande 😊 sara7a the quality is insane I didn\'t expected par rapport a le prix 😍"', name: "Cliente", city: "MAROC" },
+              { text: '"Merci chérie pour la commande j\'ai adoré 😍💗"', name: "_nabi_033", city: "INSTAGRAM" },
+              { text: '"Waslatt mzyan, Merci 😍💗 3raftti fanna wa3ra"', name: "Cliente", city: "MAROC" },
+              { text: '"These perfumes are ✨ incredible ✨ for their price honestly. My mom and I loved them and your service soooooo much thank you 🥰 It\'s really trust worthy 🫰✨"', name: "Cliente", city: "MAROC" },
+              { text: '"Merci ma chérie 🥰😘 3la la commande weslatini la qualité dyal parfum wa3ra o kib9a une durée twila testahel le prix dyalha"', name: "Cliente", city: "MAROC" },
             ].map((t, i) => (
               <div key={i} className="tcard reveal">
                 <div className="tstars">★★★★★</div>
