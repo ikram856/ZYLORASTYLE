@@ -35,7 +35,7 @@ export default function Navbar({ currentPage, onNavigate, cartCount, onCartToggl
     <nav className={scrolled ? "scrolled" : ""}>
       <div className="nav-inner">
         <div className="logo" onClick={handleLogoClick}>
-          <img src="/logo.png" alt="Zylorastyle" style={{ height: 48, width: "auto", display: "block" }} />
+          <img src="/logo.png" alt="Zylorastyle" style={{ height: 36, width: "auto", display: "block" }} />
         </div>
         <div className="nav-links">
           {links.map((l) => (
